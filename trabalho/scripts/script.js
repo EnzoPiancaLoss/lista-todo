@@ -1,7 +1,7 @@
 class tarefas{
     constructor(nome, status) {
-        self.nome = nome;
-        self.concluido = status;
+        this.nome = nome;
+        this.concluido = status;
     }
 }
 
@@ -12,6 +12,13 @@ function construir_lista(lista_tarefas) {
     output.empty();
 
     for (let i=0; i <lista_tarefas.length; i++) {
+        if (lista_tarefas[i].concluido === "concluido") {
+            output.append("<p>" + "[*]" + lista_tarefas[i].nome + "</p>");
+        }
+        else if (lista_tarefas[i].concluido === "não concluido") {
+            output.append("<p>" + "[ ]" + lista_tarefas[i].nome + "</p>");
+        }
+        
         output.append("<p>" + lista_tarefas[i].nome + "</p>");
         console.log(lista_tarefas[i]);
     }
@@ -20,6 +27,16 @@ function construir_lista(lista_tarefas) {
 
 function instanciar_tarefas(nome) {
     lista_tarefas.push(new tarefas(nome, "não concluido"));
+}
+
+function concluir_tarefa(nome) {
+    for (let i = 0; i < lista_tarefas.length; i++) {
+        if (lista_tarefas[i].nome === nome) {
+            lista_tarefas[i].concluido = "concluido";
+            break;
+        }
+    }
+    construir_lista(lista_tarefas);
 }
 
 $("#addTarefa").click(function() {
@@ -31,14 +48,10 @@ $("#addTarefa").click(function() {
 });
 
 $("#removeTarefa").click(function() {
-    // Isso remove tudo
-    // var output = $("#output");
-    // output.empty();
-
     var tarefaremover = document.getElementById("removerNomeTarefa").value;
     console.log(tarefaremover);
 
-    lista_tarefas = lista_tarefas.filter(lista_tarefas => lista_tarefas !== tarefaremover);
+    lista_tarefas = lista_tarefas.filter(tarefa => tarefa.nome !== tarefaremover);
     construir_lista(lista_tarefas);
 });
 
